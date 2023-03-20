@@ -7,8 +7,8 @@
 
 import UIKit
 import MapKit
+import PhotosUI
 
-// TODO: Import PhotosUI
 
 class TaskDetailViewController: UIViewController {
 
@@ -57,12 +57,33 @@ class TaskDetailViewController: UIViewController {
     }
 
     @IBAction func didTapAttachPhotoButton(_ sender: Any) {
-        // TODO: Check and/or request photo library access authorization.
+        if PHPhotoLibrary.authorizationStatus(for: .readWrite) != .authorized {
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
+                switch status {
+                case .authorized:
+                    DispatchQueue.main.async {
+                        self?.presentImagePicker()
+                    }
+                default:
+                    DispatchQueue.main.async {
+                        self?.presentGoToSettingsAlert()
+                    }
+                }
+            }
+        } else {
+            presentImagePicker()
+        }
 
     }
 
     private func presentImagePicker() {
-        // TODO: Create, configure and present image picker.
+        var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
+        config.filter = .images
+        config.preferredAssetRepresentationMode = .current
+        config.selectionLimit = 1
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
 
     }
 
@@ -114,4 +135,12 @@ extension TaskDetailViewController {
 
         present(alertController, animated: true)
     }
+}
+
+extension TaskDetailViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    
+    }
+    
+    
 }
