@@ -108,7 +108,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="RJW-I6-Md9">
-                                <rect key="frame" x="24" y="115" width="342" height="463"/>
+                                <rect key="frame" x="24" y="115" width="342" height="473"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="3wZ-hG-DrB">
                                         <rect key="frame" x="0.0" y="0.0" width="342" height="104.66666666666667"/>
@@ -140,8 +140,8 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Wjy-HK-1Xq">
-                                        <rect key="frame" x="0.0" y="128.66666666666666" width="342" height="334.33333333333337"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wjy-HK-1Xq">
+                                        <rect key="frame" x="0.0" y="128.66666666666666" width="342" height="344.33333333333337"/>
                                         <subviews>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iAe-dV-9ki">
                                                 <rect key="frame" x="0.0" y="0.0" width="342" height="300"/>
@@ -151,7 +151,7 @@
                                                 <standardMapConfiguration key="preferredConfiguration"/>
                                             </mapView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U18-CX-28F">
-                                                <rect key="frame" x="0.0" y="300" width="342" height="34.333333333333314"/>
+                                                <rect key="frame" x="0.0" y="310" width="342" height="34.333333333333314"/>
                                                 <color key="tintColor" systemColor="systemBlueColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="Attach Photo"/>

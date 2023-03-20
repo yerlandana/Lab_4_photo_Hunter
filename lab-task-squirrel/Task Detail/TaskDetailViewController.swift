@@ -10,7 +10,7 @@ import MapKit
 import PhotosUI
 
 
-class TaskDetailViewController: UIViewController {
+class TaskDetailViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet private weak var completedImageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -26,12 +26,11 @@ class TaskDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.register(TaskAnnotationView.self, forAnnotationViewWithReuseIdentifier: TaskAnnotationView.identifier)
 
-        // TODO: Register custom annotation view
+        mapView.delegate = self
 
-        // TODO: Set mapView delegate
-
-        // UI Candy
         mapView.layer.cornerRadius = 12
 
 
@@ -53,7 +52,7 @@ class TaskDetailViewController: UIViewController {
         completedImageView.tintColor = color
         
         mapView.isHidden = !task.isComplete
-        attachPhotoButton.isHidden = task.isComplete
+        //attachPhotoButton.isHidden = task.isComplete
     }
 
     @IBAction func didTapAttachPhotoButton(_ sender: Any) {
@@ -88,16 +87,31 @@ class TaskDetailViewController: UIViewController {
     }
 
     func updateMapView() {
-        // TODO: Set map viewing region and scale
+        guard let imageLocation = task.imageLocation else { return }
+        // https://developer.apple.com/documentation/mapkit/mkmapview
+        let coordinate = imageLocation.coordinate
+        let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        mapView.setRegion(region, animated: true)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        mapView.addAnnotation(annotation)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
-        // TODO: Add annotation to map view
+        // Dequeue the annotation view for the specified reuse identifier and annotation.
+        // Cast the dequeued annotation view to your specific custom annotation view class, `TaskAnnotationView`
+        // 💡 This is very similar to how we get and prepare cells for use in table views.
+        guard let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: TaskAnnotationView.identifier, for: annotation) as? TaskAnnotationView else {
+            fatalError("Unable to dequeue TaskAnnotationView")
+        }
+
+        // Configure the annotation view, passing in the task's image.
+        annotationView.configure(with: task.image)
+        return annotationView
     }
 }
-
-// TODO: Conform to PHPickerViewControllerDelegate + implement required method(s)
-
-// TODO: Conform to MKMapKitDelegate + implement mapView(_:viewFor:) delegate method.
-
 // Helper methods to present various alerts
 extension TaskDetailViewController {
 
@@ -139,7 +153,43 @@ extension TaskDetailViewController {
 
 extension TaskDetailViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-    
+        picker.dismiss(animated: true)
+
+        // Get the selected image asset (we can grab the 1st item in the array since we only allowed a selection limit of 1)
+        let result = results.first
+
+        // Get image location
+        // PHAsset contains metadata about an image or video (ex. location, size, etc.)
+        guard let assetId = result?.assetIdentifier,
+              let location = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil).firstObject?.location else {
+            return
+        }
+
+        print("📍 Image location coordinate: \(location.coordinate)")
+        
+        guard let provider = result?.itemProvider,
+              provider.canLoadObject(ofClass: UIImage.self) else { return }
+
+        provider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
+
+            if let error = error {
+              DispatchQueue.main.async { [weak self] in self?.showAlert(for:error) }
+            
+            }
+
+            guard let image = object as? UIImage else { return }
+
+            print("🌉 We have an image!")
+
+            DispatchQueue.main.async { [weak self] in
+
+                self?.task.set(image, with: location)
+
+                self?.updateUI()
+
+                self?.updateMapView()
+            }
+        }
     }
     
     
