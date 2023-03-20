@@ -40,24 +40,6 @@ class TaskListViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        // Segue to Compose View Controller
-        if segue.identifier == "ComposeSegue" {
-
-            // Since the segue is connected to the navigation controller that manages the ComposeViewController
-            // we need to access the navigation controller first...
-            if let composeNavController = segue.destination as? UINavigationController,
-                // ...then get the actual ComposeViewController via the navController's `topViewController` property.
-               let composeViewController = composeNavController.topViewController as? TaskComposeViewController {
-
-                // Update the tasks array for any new task passed back via the `onComposeTask` closure.
-                composeViewController.onComposeTask = { [weak self] task in
-                    self?.tasks.append(task)
-                }
-            }
-
-            // Segue to Detail View Controller
-        } else if segue.identifier == "DetailSegue" {
             if let detailViewController = segue.destination as? TaskDetailViewController,
                 // Get the index path for the current selected table view row.
                let selectedIndexPath = tableView.indexPathForSelectedRow {
@@ -69,7 +51,6 @@ class TaskListViewController: UIViewController {
                 detailViewController.task = task
             }
         }
-    }
 }
 
 extension TaskListViewController: UITableViewDataSource {
