@@ -13,13 +13,14 @@ import MapKit
 class TaskDetailViewController: UIViewController {
 
     @IBOutlet private weak var completedImageView: UIImageView!
-    @IBOutlet private weak var completedLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var attachPhotoButton: UIButton!
 
     // MapView outlet
     @IBOutlet private weak var mapView: MKMapView!
+    
+    
 
     var task: Task!
 
@@ -47,12 +48,10 @@ class TaskDetailViewController: UIViewController {
 
         // calling `withRenderingMode(.alwaysTemplate)` on an image allows for coloring the image via it's `tintColor` property.
         completedImageView.image = completedImage?.withRenderingMode(.alwaysTemplate)
-        completedLabel.text = task.isComplete ? "Complete" : "Incomplete"
 
         let color: UIColor = task.isComplete ? .systemBlue : .tertiaryLabel
         completedImageView.tintColor = color
-        completedLabel.textColor = color
-
+        
         mapView.isHidden = !task.isComplete
         attachPhotoButton.isHidden = task.isComplete
     }
