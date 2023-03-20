@@ -48,7 +48,7 @@ class TaskDetailViewController: UIViewController, MKMapViewDelegate {
         // calling `withRenderingMode(.alwaysTemplate)` on an image allows for coloring the image via it's `tintColor` property.
         completedImageView.image = completedImage?.withRenderingMode(.alwaysTemplate)
 
-        let color: UIColor = .systemRed
+        let color: UIColor = .systemGreen
         completedImageView.tintColor = color
         
         mapView.isHidden = !task.isComplete

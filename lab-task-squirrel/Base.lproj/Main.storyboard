@@ -119,7 +119,7 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gP7-Uc-dFm">
                                                         <rect key="frame" x="0.0" y="-3.0000000000000036" width="26.666666666666668" height="60.666666666666671"/>
                                                         <color key="tintColor" systemColor="systemRedColor"/>
-                                                        <imageReference key="image" image="circle.inset.filled" catalog="system" symbolScale="large"/>
+                                                        <imageReference key="image" image="circle" catalog="system" symbolScale="large"/>
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" weight="bold">
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         </preferredSymbolConfiguration>
@@ -211,7 +211,6 @@
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
         <image name="circle" catalog="system" width="128" height="123"/>
-        <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
